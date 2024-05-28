@@ -1,5 +1,5 @@
 {{- if .Values.ingress.hosts -}}
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}
@@ -13,6 +13,9 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+{{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+{{- end}}
 {{- if .Values.ingress.tls }}
   tls:
     - hosts:
@@ -26,9 +29,12 @@ spec:
         paths:
         {{- range $.Values.ingress.paths }}
           - path: {{ . }}
+            pathType: Prefix
             backend:
-              serviceName: {{ $.Values.service.name }}
-              servicePort: http
+              service:
+                name: {{ $.Values.service.name }}
+                port:
+                  number: {{ $.Values.service.port }}
         {{- end }}
   {{- end }}
 {{- end }}
