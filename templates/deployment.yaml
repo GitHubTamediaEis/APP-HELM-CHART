@@ -29,9 +29,9 @@ spec:
       - name: {{ .Values.initContainer.name }}
         image: {{ .Values.initContainer.image }}
         imagePullPolicy: {{ .Values.initContainer.image_pull_policy }}
-        {{- if .Values.command }}
+        {{- if .Values.initContainer.command }}
         command:
-          {{- .Values.command | toYaml | nindent 12 }}
+          {{- .Values.initContainer.command | toYaml | nindent 12 }}
         {{- end }}
       {{- end }}
       containers:
