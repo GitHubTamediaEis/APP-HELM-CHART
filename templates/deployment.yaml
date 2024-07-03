@@ -24,6 +24,16 @@ spec:
       securityContext:	
         fsGroup: 65534 # To be able to read Kubernetes and AWS token files	
       {{- end }}
+      {{- if .Values.initContainers.enabled }}
+      initContainers:
+      - name: {{ .Values.initContainer.name }}
+        image: {{ .Values.initContainer.image }}
+        imagePullPolicy: {{ .Values.initContainer.image_pull_policy }}
+        {{- if .Values.initContainer.command }}
+        command:
+          {{- .Values.initContainer.command | toYaml | nindent 12 }}
+        {{- end }}
+      {{- end }}
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image_repo }}:{{ .Values.image_tag }}"
