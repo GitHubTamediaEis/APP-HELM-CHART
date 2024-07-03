@@ -28,7 +28,11 @@ spec:
       initContainers:
       - name: {{ .Values.initContainer.name }}
         image: {{ .Values.initContainer.image }}
-        command: {{ toJson .Values.initContainer.command }}
+        imagePullPolicy: {{ .Values.image_pull_policy }}
+        {{- if .Values.command }}
+        command:
+          {{- .Values.command | toYaml | nindent 12 }}
+        {{- end }}
       {{- end }}
       containers:
         - name: {{ .Release.Name }}
