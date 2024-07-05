@@ -33,12 +33,23 @@ spec:
         command:
           {{- .Values.initContainer.command | toYaml | nindent 12 }}
         {{- end }}
+        {{- if .Values.initContainer.env }}
+        {{- range $key, $val := .Values.initContainer.env }}
+          - name: {{ $key }}
+            value: {{ $val | quote }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.initContainer.secretName }}
+        envFrom:
+          - secretRef:
+              name: {{ .Values.initContainer.secretName }}
+        {{- end }}
+
       {{- end }}
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image_repo }}:{{ .Values.image_tag }}"
           imagePullPolicy: {{ .Values.image_pull_policy }}
-          {{- if .Values.secretName }}
           {{- if .Values.command }}
           command:
             {{- .Values.command | toYaml | nindent 12 }}
@@ -56,6 +67,7 @@ spec:
               value: {{ $val | quote }}
           {{- end }}
           {{- end }}
+          {{- if .Values.secretName }}
           envFrom:
             - secretRef:
                 name: {{ .Values.secretName }}
