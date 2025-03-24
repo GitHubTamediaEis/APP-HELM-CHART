@@ -92,3 +92,6 @@ externalSecrets:
   clusterSecretStore: aws-secretsmanager
   # secret names that should be fetched and made available to the Pods
   secretNames: []
+
+metadata:
+  hpaAnnotations: {}
