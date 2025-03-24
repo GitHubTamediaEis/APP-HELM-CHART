@@ -83,6 +83,8 @@ spec:
               port: http
             initialDelaySeconds: {{ .Values.probe.livenessInitialDelaySeconds }}
             periodSeconds: {{ .Values.probe.livenessPeriodSeconds }}
+            timeoutSeconds: {{ .Values.probe.livenessTimeoutSeconds }}
+            failureThreshold: {{ .Values.probe.livenessFailureThreshold }}
           {{- end }}
           {{- if .Values.probe.readiness }}
           readinessProbe:
@@ -91,6 +93,8 @@ spec:
               port: http
             initialDelaySeconds: {{ .Values.probe.readinessInitialDelaySeconds }}
             periodSeconds: {{ .Values.probe.readinessPeriodSeconds }}
+            timeoutSeconds: {{ .Values.probe.readinessTimeoutSeconds }}
+            failureThreshold: {{ .Values.probe.readinessFailureThreshold }}
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

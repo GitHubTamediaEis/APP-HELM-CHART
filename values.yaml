@@ -25,6 +25,7 @@ probe:
   livenessInitialDelaySeconds: 0
   livenessPeriodSeconds: 10
   livenessTimeoutSeconds: 2
+  livenessFailureThreshold: 1
   readiness: /
   readinessInitialDelaySeconds: 0
   readinessPeriodSeconds: 5
