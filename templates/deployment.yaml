@@ -45,6 +45,8 @@ spec:
           - secretRef:
               name: {{ .Values.initContainer.secretName }}
         {{- end }}
+        resources:
+          {{- toYaml .Values.initContainer.resources | nindent 12 }}
       {{- end }}
       containers:
         - name: {{ .Release.Name }}
